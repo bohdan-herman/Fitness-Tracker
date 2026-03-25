@@ -1,5 +1,8 @@
 import jwt from "jsonwebtoken";
-import { findUserByName, verifyPassword } from "../../servises/loginService.js";
+import {
+  findUserByName,
+  verifyPassword,
+} from "../../servises/authServices/loginService.js";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -7,7 +10,7 @@ export const LoginController = async (req, res) => {
   if (!req.body.name?.trim() || !req.body.password?.trim()) {
     return res.status(400).json({
       success: false,
-      message: "Поля name и password не могут быть пустыми строками",
+      message: "Fields name and password cannot be empty strings",
     });
   }
 
@@ -15,22 +18,25 @@ export const LoginController = async (req, res) => {
   if (!user) {
     return res.status(401).json({
       success: false,
-      message: "Неверное имя пользователя или пароль",
+      message: "Invalid username or password",
     });
   }
 
-  const isPasswordValid = await verifyPassword(req.body.password, user.password);
+  const isPasswordValid = await verifyPassword(
+    req.body.password,
+    user.password,
+  );
   if (!isPasswordValid) {
     return res.status(401).json({
       success: false,
-      message: "Неверное имя пользователя или пароль",
+      message: "Invalid username or password",
     });
   }
 
   const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: "1h" });
   res.status(200).json({
     success: true,
-    message: "Вход выполнен успешно",
+    message: "Login successful",
     token,
     name: user.name,
   });

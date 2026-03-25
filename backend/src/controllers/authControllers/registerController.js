@@ -1,5 +1,8 @@
 import jwt from "jsonwebtoken";
-import { existingUser, registerUser } from "../../servises/registerService.js";
+import {
+  existingUser,
+  registerUser,
+} from "../../servises/authServices/registerService.js";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -7,13 +10,13 @@ export const RegisterController = async (req, res) => {
   if (!req.body.name.trim() || !req.body.password.trim()) {
     return res.status(400).json({
       success: false,
-      message: "Поля name и password не могут быть пустыми строками",
+      message: "Fields name and password cannot be empty strings",
     });
   }
   if (await existingUser(req.body.name)) {
     return res.status(409).json({
       success: false,
-      message: "Пользователь с таким name уже зарегистрирован",
+      message: "User with this name is already registered",
     });
   }
 

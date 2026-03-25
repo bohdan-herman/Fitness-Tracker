@@ -3,6 +3,6 @@ export const LogoutController = (req, res) => {
   // Клиент должен удалить токен на своей стороне.
   res.status(200).json({
     success: true,
-    message: "Вы успешно вышли из аккаунта",
+    message: "Logout successful",
   });
 };

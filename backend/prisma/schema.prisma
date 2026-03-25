@@ -1,30 +1,40 @@
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
   provider = "prisma-client-js"
 }
 
-
 model User {
   id        Int       @id @default(autoincrement())
   name      String    @unique
   password  String
   createdAt DateTime  @default(now())
-  workouts  Workout[]
+  workouts Workout[]
 }
 
 model Exercise {
   id        Int      @id @default(autoincrement())
   name      String
-  workoutId Int
-  workout   Workout  @relation(fields: [workoutId], references: [id])
+  workoutExercise   WorkoutExercise[]
 }
 
 model Workout {
   id        Int        @id @default(autoincrement())
   name      String
-  exercises Exercise[]
-  users     User[]
+  authorId Int
+  author   User     @relation(fields: [authorId], references: [id])
+  workoutExercises WorkoutExercise[]
+}
+
+model WorkoutExercise {
+  id          Int      @id @default(autoincrement())
+  workoutId   Int 
+  exerciseId  Int
+
+  workout     Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  exercise    Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  @@unique([workoutId, exerciseId])
 }
