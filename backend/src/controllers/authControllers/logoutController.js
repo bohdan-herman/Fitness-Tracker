@@ -1,8 +1,7 @@
 export const LogoutController = (req, res) => {
-  // JWT является stateless — сервер не хранит сессию.
-  // Клиент должен удалить токен на своей стороне.
+  res.clearCookie("token");
   res.status(200).json({
     success: true,
-    message: "Logout successful",
+    message: "You logged out successfully",
   });
 };

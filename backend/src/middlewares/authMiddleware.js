@@ -3,16 +3,14 @@ import jwt from "jsonwebtoken";
 const JWT_SECRET = process.env.JWT_SECRET;
 
 export const authMiddleware = (req, res, next) => {
-  const authHeader = req.headers.authorization;
+  const token = req.cookies.token;
 
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+  if (!token) {
     return res.status(401).json({
       success: false,
-      message: "Токен не предоставлен. Пожалуйста, войдите в аккаунт",
+      message: "Token not provided. Please login",
     });
   }
-
-  const token = authHeader.split(" ")[1];
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
@@ -21,7 +19,7 @@ export const authMiddleware = (req, res, next) => {
   } catch (error) {
     return res.status(401).json({
       success: false,
-      message: "Недействительный или просроченный токен",
+      message: "Invalid or expired token",
     });
   }
 };

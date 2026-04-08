@@ -34,10 +34,16 @@ export const LoginController = async (req, res) => {
   }
 
   const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: "1h" });
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "strict",
+    maxAge: 1000 * 60 * 60,
+  });
+
   res.status(200).json({
     success: true,
     message: "Login successful",
-    token,
     name: user.name,
   });
 };
