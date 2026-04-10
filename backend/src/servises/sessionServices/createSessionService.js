@@ -7,5 +7,13 @@ export const createSessionService = async (userId, workout) => {
       workoutId: workout.id,
     },
   });
+  await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      isWorkoutActive: true,
+    },
+  });
   return session;
 };

@@ -22,10 +22,15 @@ export const RegisterController = async (req, res) => {
 
   const user = await registerUser(req.body.name, req.body.password);
   const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: "1h" });
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "strict",
+    maxAge: 1000 * 60 * 60,
+  });
   res.status(201).json({
     success: true,
     message: "Пользователь успешно зарегистрирован",
-    token,
     name: user.name,
   });
 };

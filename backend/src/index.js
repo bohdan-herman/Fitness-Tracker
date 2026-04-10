@@ -4,6 +4,7 @@ import workoutRouter from "./routes/workoutRouter.js";
 import exerciseRouter from "./routes/exerciseRouter.js";
 import profileRouter from "./routes/profileRouter.js";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 const app = express();
 const PORT = 3000;
@@ -11,6 +12,12 @@ const PORT = 3000;
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  }),
+);
 
 app.use("/auth", authRouter);
 app.use("/workout", workoutRouter);

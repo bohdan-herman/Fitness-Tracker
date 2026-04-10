@@ -14,6 +14,7 @@ model User {
   createdAt DateTime  @default(now())
   workouts Workout[]
   sessions WorkoutSession[]
+  isWorkoutActive Boolean @default(false)
 }
 
 model Exercise {
@@ -31,22 +32,16 @@ model Workout {
   workoutExercises WorkoutExercise[]
 }
 
-model Set {
-  id          Int      @id @default(autoincrement())
-  workoutExerciseId Int
-  oldReps Int @default(0)
-  oldWeight Float @default(0)
-  reps Int @default(0)
-  weight Float @default(0)
 
-  workoutExercise WorkoutExercise @relation(fields: [workoutExerciseId], references: [id], onDelete: Cascade)
-}
 
 model WorkoutExercise {
   id          Int      @id @default(autoincrement())
   workoutId   Int 
   exerciseId  Int
-  sets Set[]
+
+  weight Float @default(0)
+  reps Int @default(0)
+  
   workout     Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
   exercise    Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
   @@unique([workoutId, exerciseId])
@@ -56,7 +51,8 @@ model WorkoutSession {
   id          Int      @id @default(autoincrement())
   workoutId   Int
   userId Int
+  status String @default("active")
   date        DateTime @default(now())
-  workout     Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  workout     Workout  @relation(fields: [workoutId], references: [id])
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
