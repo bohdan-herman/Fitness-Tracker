@@ -8,50 +8,100 @@ generator client {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  name      String    @unique
+  // Primary
+  id String @id @default(cuid())
+
+  // Basic info
+  name      String   @unique
   password  String
-  createdAt DateTime  @default(now())
-  workouts Workout[]
-  sessions WorkoutSession[]
+  createdAt DateTime @default(now())
+
+  // State
   isWorkoutActive Boolean @default(false)
+
+  // Relations
+  workouts Workout[]
+  sessions Session[]
+  sets Set[]
 }
 
-model Exercise {
-  id        Int      @id @default(autoincrement())
-  name      String
+model Workout{
+  // Primary
+  id String @id @default(cuid())
+
+  // Info
+  name String
+
+  // Foreign keys
+  authorId String
+
+  // Relations
+  author User @relation(fields: [authorId], references: [id])
+
+  exercises WorkoutExercise[]
+  sessions  WorkoutSession[]
+}
+
+model Exercise{
+  //Primary
+  id String @id @default(cuid())
+
+  // Info
+  name String
   muscleGroup String @default("unknown")
-  workoutExercise   WorkoutExercise[]
-}
 
-model Workout {
-  id        Int        @id @default(autoincrement())
-  name      String
-  authorId Int
-  author   User     @relation(fields: [authorId], references: [id])
+  // Relations
   workoutExercises WorkoutExercise[]
-  sessions WorkoutSession[]
+  sets Set[]
 }
 
-model WorkoutExercise {
-  id          Int      @id @default(autoincrement())
-  workoutId   Int 
-  exerciseId  Int
+model Set{
+  // Primary
+  id String @id @default(cuid())
 
-  weight Float @default(0)
-  reps Int @default(0)
-  
-  workout     Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
-  exercise    Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
-  @@unique([workoutId, exerciseId])
+  // Info
+  weight Float
+  reps Int
+
+  // Foreign keys
+  sessionId String
+  exerciseId String
+  userId String
+
+  // Relations
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  exercise Exercise @relation(fields: [exerciseId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model WorkoutSession {
-  id          Int      @id @default(autoincrement())
-  workoutId   Int
-  userId Int
+model Session{
+  //Primary
+  id String @id @default(cuid())
+
+  // Info
   status String @default("active")
-  date        DateTime @default(now())
-  workout     Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date DateTime @default(now())
+
+  // Foreign keys
+  workoutId String
+  userId String
+
+  // Relations
+  workout Workout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  sets Set[]
+}
+
+model WorkoutExercise{
+  // Primary
+  id String @id @default(cuid())
+
+  // Foreign keys
+  workoutId String
+  exerciseId String
+
+  // Relations
+  workout Workout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  exercise Exercise @relation(fields: [exerciseId], references: [id])
 }

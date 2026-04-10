@@ -1,10 +1,10 @@
 import prisma from "../../config/prisma.js";
 
-export const createSessionService = async (userId, workout) => {
-  const session = await prisma.workoutSession.create({
+export const createSessionService = async (userId, workoutId) => {
+  const session = await prisma.session.create({
     data: {
       userId,
-      workoutId: workout.id,
+      workoutId,
     },
   });
   await prisma.user.update({

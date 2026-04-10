@@ -10,7 +10,7 @@ export const createSessionController = async (req, res) => {
       message: "Workout not found",
     });
   }
-  const session = await createWorkoutSessionService(req.user.id, workout);
+  const session = await createWorkoutSessionService(req.user.id, workout.id);
   return res.status(201).json({
     success: true,
     message: "Session started successfully",

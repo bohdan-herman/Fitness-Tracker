@@ -1,25 +1,33 @@
 import prisma from "../../config/prisma.js";
 
-export const endSessionService = async (session, updatedWorkoutExercises) => {
+export const endSessionService = async (session, sets) => {
   const result = await prisma.$transaction(async (tx) => {
-    for (const exercise of updatedWorkoutExercises) {
-      await tx.workoutExercise.update({
-        where: {
-          workoutId_exerciseId: {
-            workoutId: session.workoutId,
-            exerciseId: exercise.id,
-          },
-        },
+    const workoutExersises = await tx.workoutExercise.findMany({
+      where: {
+        workoutId: session.workoutId,
+      },
+    });
+    const workoutExerciseIds = workoutExersises.map(
+      (exercise) => exercise.exerciseId,
+    );
+    for (const set of sets) {
+      if (!workoutExerciseIds.includes(set.exerciseId)) {
+        throw new Error("Invalid exerciseId");
+      }
+      await tx.set.create({
         data: {
-          weight: exercise.weight,
-          reps: exercise.reps,
+          weight: set.weight,
+          reps: set.reps,
+          sessionId: session.id,
+          exerciseId: set.exerciseId,
+          userId: session.userId,
         },
       });
     }
 
-    const updatedSession = await tx.workoutSession.update({
+    const updatedSession = await tx.session.update({
       where: { id: session.id },
-      data: { status: "inactive" },
+      data: { status: "completed" },
     });
 
     await tx.user.update({

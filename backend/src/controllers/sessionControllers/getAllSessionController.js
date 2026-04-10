@@ -1,3 +1,5 @@
+import { getAllSessionService } from "../../servises/sessionServices/getAllSessionService.js";
+
 export const getAllSessionController = async (req, res) => {
   const { userId } = req.params;
   const sessions = await getAllSessionService(userId);

@@ -1,6 +1,9 @@
+import { getSessionService } from "../../servises/sessionServices/getSessionService.js";
+import { endSessionService } from "../../servises/sessionServices/endSessionService.js";
+
 export const endSessionController = async (req, res) => {
   const { sessionId } = req.params;
-  const { updatedWorkoutExercises } = req.body;
+  const { sets } = req.body;
   const session = await getSessionService(req.user.id, sessionId);
   if (!session) {
     return res.status(404).json({
@@ -15,10 +18,7 @@ export const endSessionController = async (req, res) => {
     });
   }
 
-  const endedSession = await endSessionService(
-    session,
-    updatedWorkoutExercises,
-  );
+  const endedSession = await endSessionService(session, sets);
 
   return res.status(200).json({
     success: true,

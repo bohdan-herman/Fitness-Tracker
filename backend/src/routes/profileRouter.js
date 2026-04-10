@@ -7,6 +7,5 @@ const router = Router();
 
 router.get("/:id", authMiddleware, getProfileController);
 router.put("/update/name", authMiddleware, updateProfileNameController);
-router.get("/:userId/exersises", authMiddleware, getProfileExercisesController);
 
 export default router;
