@@ -10,8 +10,8 @@ const router = Router();
 
 router.post("/create", authMiddleware, CreateWorkoutController);
 router.delete("/delete/:id", authMiddleware, DeleteWorkoutController);
-router.get("/all/:userId", GetAllWorkoutsController);
-router.get("/:id/:userId", GetWorkoutController);
+router.get("/all/:userId", authMiddleware, GetAllWorkoutsController);
+router.get("/:id/:userId", authMiddleware, GetWorkoutController);
 router.put("/update/:id/:userId", authMiddleware, UpdateWorkoutController);
 
 export default router;

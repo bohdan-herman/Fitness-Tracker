@@ -30,9 +30,8 @@ model Workout {
   authorId Int
   author   User     @relation(fields: [authorId], references: [id])
   workoutExercises WorkoutExercise[]
+  sessions WorkoutSession[]
 }
-
-
 
 model WorkoutExercise {
   id          Int      @id @default(autoincrement())
@@ -53,6 +52,6 @@ model WorkoutSession {
   userId Int
   status String @default("active")
   date        DateTime @default(now())
-  workout     Workout  @relation(fields: [workoutId], references: [id])
+  workout     Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

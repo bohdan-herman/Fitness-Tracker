@@ -9,7 +9,7 @@ const router = Router();
 
 router.post("/start/:workoutId", authMiddleware, createSessionController);
 router.patch("/end/:sessionId", authMiddleware, endSessionController);
-router.get("/:userId", getAllSessionController);
-router.get("/:userId/:id", getSessionController);
+router.get("/:userId", authMiddleware, getAllSessionController);
+router.get("/:userId/:id", authMiddleware, getSessionController);
 
 export default router;

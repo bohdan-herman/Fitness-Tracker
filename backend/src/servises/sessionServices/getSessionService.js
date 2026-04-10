@@ -5,7 +5,6 @@ export const getSessionService = async (userId, sessionId) => {
     where: {
       id: sessionId,
       userId,
-      status: "inactive",
     },
   });
   return session;

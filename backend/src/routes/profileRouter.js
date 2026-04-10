@@ -5,7 +5,8 @@ import { updateProfileNameController } from "../controllers/profileControllers/u
 
 const router = Router();
 
-router.get("/:id", getProfileController);
+router.get("/:id", authMiddleware, getProfileController);
 router.put("/update/name", authMiddleware, updateProfileNameController);
+router.get("/:userId/exersises", authMiddleware, getProfileExercisesController);
 
 export default router;
