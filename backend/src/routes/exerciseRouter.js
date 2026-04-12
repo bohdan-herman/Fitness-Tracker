@@ -1,17 +1,20 @@
 import { Router } from "express";
-import { GetAllExercisesController } from "../controllers/exerciseControllers/GetAllExercisesController.js";
-import { GetExerciseController } from "../controllers/exerciseControllers/GetExerciseController.js";
-import { GetExercisesByMuscleGroupController } from "../controllers/exerciseControllers/GetExersicesByMuscleGroupController.js";
+import { getAllExercisesController } from "../controllers/exerciseControllers/getAllExercisesController.js";
+import { getExerciseController } from "../controllers/exerciseControllers/getExerciseController.js";
+import { getExercisesByMuscleGroupController } from "../controllers/exerciseControllers/getExersicesByMuscleGroupController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
+import { asyncHandler } from "../middlewares/asyncHandler.js";
+import { InvalidMuscleGroupMiddleware } from "../middlewares/InvalidMuscleGroupMiddleware.js";
 
 const router = Router();
 
-router.get("/all", authMiddleware, GetAllExercisesController);
-router.get("/:id", authMiddleware, GetExerciseController);
+router.get("/all", authMiddleware, asyncHandler(getAllExercisesController));
+router.get("/:id", authMiddleware, asyncHandler(getExerciseController));
 router.get(
   "/muscleGroup/:muscleGroup",
   authMiddleware,
-  GetExercisesByMuscleGroupController,
+  InvalidMuscleGroupMiddleware,
+  asyncHandler(getExercisesByMuscleGroupController),
 );
 
 export default router;

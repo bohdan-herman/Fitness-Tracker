@@ -1,4 +1,4 @@
-import { getSessionService } from "../../servises/sessionServices/getSessionService.js";
+import { getSessionService } from "../../services/sessionServices/getSessionService.js";
 
 export const getSessionController = async (req, res) => {
   const { sessionId } = req.params;
@@ -12,6 +12,6 @@ export const getSessionController = async (req, res) => {
   return res.status(200).json({
     success: true,
     message: "Session fetched successfully",
-    session,
+    data: session,
   });
 };

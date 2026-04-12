@@ -5,6 +5,7 @@ import exerciseRouter from "./routes/exerciseRouter.js";
 import profileRouter from "./routes/profileRouter.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { asyncHandler } from "./middlewares/asyncHandler.js";
 
 const app = express();
 const PORT = 3000;

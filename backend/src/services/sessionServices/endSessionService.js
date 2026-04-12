@@ -1,4 +1,5 @@
 import prisma from "../../config/prisma.js";
+import AppError from "../../utils/AppError.js";
 
 export const endSessionService = async (session, sets) => {
   const result = await prisma.$transaction(async (tx) => {
@@ -15,7 +16,7 @@ export const endSessionService = async (session, sets) => {
 
     for (const set of sets) {
       if (!ExerciseIds.includes(set.exerciseId)) {
-        throw new Error("Invalid exerciseId");
+        throw new AppError("Invalid exerciseId", 400);
       }
       await tx.set.create({
         data: {
