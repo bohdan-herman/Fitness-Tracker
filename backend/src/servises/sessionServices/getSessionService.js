@@ -5,6 +5,10 @@ export const getSessionService = async (userId, sessionId) => {
     where: {
       id: sessionId,
       userId,
+      status: "completed",
+    },
+    include: {
+      sets: true,
     },
   });
   return session;

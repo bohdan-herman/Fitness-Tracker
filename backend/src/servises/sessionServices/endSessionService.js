@@ -2,16 +2,19 @@ import prisma from "../../config/prisma.js";
 
 export const endSessionService = async (session, sets) => {
   const result = await prisma.$transaction(async (tx) => {
-    const workoutExersises = await tx.workoutExercise.findMany({
+    const exercises = await tx.exercise.findMany({
       where: {
-        workoutId: session.workoutId,
+        workouts: {
+          some: {
+            id: session.workoutId,
+          },
+        },
       },
     });
-    const workoutExerciseIds = workoutExersises.map(
-      (exercise) => exercise.exerciseId,
-    );
+    const ExerciseIds = exercises.map((exercise) => exercise.id);
+
     for (const set of sets) {
-      if (!workoutExerciseIds.includes(set.exerciseId)) {
+      if (!ExerciseIds.includes(set.exerciseId)) {
         throw new Error("Invalid exerciseId");
       }
       await tx.set.create({

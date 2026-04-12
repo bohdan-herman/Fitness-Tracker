@@ -5,5 +5,8 @@ export const getAllWorkoutsService = async (user) => {
     where: {
       authorId: user.id,
     },
+    include: {
+      exercises: true,
+    },
   });
 };

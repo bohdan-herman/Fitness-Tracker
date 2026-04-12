@@ -5,9 +5,9 @@ export const CreateWorkoutService = async (user, body) => {
     data: {
       authorId: user.id,
       name: body.name,
-      workoutExercises: {
-        create: body.exercises.map((exercise) => ({
-          exerciseId: exercise.id,
+      exercises: {
+        connect: body.exercises.map((exercise) => ({
+          id: exercise.id,
         })),
       },
     },

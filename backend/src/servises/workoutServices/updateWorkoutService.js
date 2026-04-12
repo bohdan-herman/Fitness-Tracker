@@ -6,6 +6,13 @@ export const updateWorkoutService = async (user, id, body) => {
       id,
       authorId: user.id,
     },
-    data: body,
+    data: {
+      name: body.name,
+      exercises: {
+        connect: body.exercises.map((exercise) => ({
+          id: exercise.id,
+        })),
+      },
+    },
   });
 };

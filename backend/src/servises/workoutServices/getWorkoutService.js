@@ -6,5 +6,8 @@ export const getWorkoutService = async (userId, id) => {
       id,
       authorId: userId,
     },
+    include: {
+      exercises: true,
+    },
   });
 };

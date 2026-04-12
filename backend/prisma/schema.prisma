@@ -38,8 +38,8 @@ model Workout{
   // Relations
   author User @relation(fields: [authorId], references: [id])
 
-  exercises WorkoutExercise[]
-  sessions  WorkoutSession[]
+  exercises Exercise[]
+  sessions  Session[]
 }
 
 model Exercise{
@@ -51,7 +51,7 @@ model Exercise{
   muscleGroup String @default("unknown")
 
   // Relations
-  workoutExercises WorkoutExercise[]
+  workouts Workout[]
   sets Set[]
 }
 
@@ -93,15 +93,4 @@ model Session{
   sets Set[]
 }
 
-model WorkoutExercise{
-  // Primary
-  id String @id @default(cuid())
 
-  // Foreign keys
-  workoutId String
-  exerciseId String
-
-  // Relations
-  workout Workout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
-  exercise Exercise @relation(fields: [exerciseId], references: [id])
-}
