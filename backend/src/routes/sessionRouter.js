@@ -5,6 +5,7 @@ import { endSessionController } from "../controllers/sessionControllers/endSessi
 import { getAllSessionController } from "../controllers/sessionControllers/getAllSessionController.js";
 import { getSessionController } from "../controllers/sessionControllers/getSessionController.js";
 import { asyncHandler } from "../middlewares/asyncHandler.js";
+import { getOwnSessionsController } from "../controllers/sessionControllers/getOwnSessionsController.js";
 import {
   sessionAlreadyCompletedMiddleware,
   sessionNotFoundMiddleware,
@@ -16,22 +17,28 @@ const router = Router();
 router.post(
   "/start/:workoutId",
   authMiddleware,
-  workoutNotFoundMiddleware,
+  asyncHandler(workoutNotFoundMiddleware),
   asyncHandler(createSessionController),
 );
 router.patch(
   "/end/:sessionId",
   authMiddleware,
-  sessionNotFoundMiddleware,
-  sessionAlreadyCompletedMiddleware,
+  asyncHandler(sessionNotFoundMiddleware),
+  asyncHandler(sessionAlreadyCompletedMiddleware),
   asyncHandler(endSessionController),
 );
+router.get(
+  "/my-sessions",
+  authMiddleware,
+  asyncHandler(getOwnSessionsController),
+);
+
 router.get("/:userId", authMiddleware, asyncHandler(getAllSessionController));
 
 router.get(
   "/:userId/:id",
   authMiddleware,
-  sessionNotFoundMiddleware,
+  asyncHandler(sessionNotFoundMiddleware),
   asyncHandler(getSessionController),
 );
 

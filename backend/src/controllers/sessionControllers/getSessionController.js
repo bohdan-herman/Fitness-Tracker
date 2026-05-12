@@ -1,8 +1,9 @@
 import { getSessionService } from "../../services/sessionServices/getSessionService.js";
+import { asyncHandler } from "../../middlewares/asyncHandler.js";
 
-export const getSessionController = async (req, res) => {
-  const { sessionId } = req.params;
-  const session = await getSessionService(req.user.id, sessionId);
+export const getSessionController = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const session = await getSessionService(req.user.id, id);
   if (!session) {
     return res.status(404).json({
       success: false,
@@ -14,4 +15,4 @@ export const getSessionController = async (req, res) => {
     message: "Session fetched successfully",
     data: session,
   });
-};
+});

@@ -1,4 +1,4 @@
-import { AppError } from "../utils/AppError.js";
+import AppError from "../utils/AppError.js";
 import { findUserByName } from "../services/authServices/loginService.js";
 
 export const registerMiddleware = async (req, res, next) => {

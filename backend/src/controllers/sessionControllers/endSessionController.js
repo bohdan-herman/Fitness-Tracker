@@ -1,7 +1,8 @@
 import { getSessionService } from "../../services/sessionServices/getSessionService.js";
 import { endSessionService } from "../../services/sessionServices/endSessionService.js";
+import { asyncHandler } from "../../middlewares/asyncHandler.js";
 
-export const endSessionController = async (req, res) => {
+export const endSessionController = asyncHandler(async (req, res) => {
   const { sessionId } = req.params;
   const { sets } = req.body;
   const session = await getSessionService(req.user.id, sessionId);
@@ -12,4 +13,4 @@ export const endSessionController = async (req, res) => {
     message: "Session ended successfully",
     data: endedSession,
   });
-};
+});

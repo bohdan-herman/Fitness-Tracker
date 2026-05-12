@@ -23,6 +23,7 @@ export const createSessionService = async (userId, workoutId) => {
       },
       include: {
         sets: true,
+        workout: true,
       },
     });
 

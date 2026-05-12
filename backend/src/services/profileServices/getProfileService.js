@@ -5,6 +5,10 @@ export const getProfileService = async (id) => {
     where: {
       id,
     },
+    select: {
+      name: true,
+      id: true,
+    },
   });
   return profile;
 };

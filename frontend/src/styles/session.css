@@ -1,0 +1,178 @@
+/* ============================================================
+   SESSION PAGE STYLES
+   ============================================================ */
+
+.page--session {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+}
+
+.session__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.session__title {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-white);
+  letter-spacing: -0.5px;
+}
+
+.session__status {
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-success);
+  background-color: rgba(0, 208, 132, 0.1);
+  border: 1px solid rgba(0, 208, 132, 0.25);
+  border-radius: var(--border-radius-pill);
+  padding: 4px 12px;
+}
+
+.session__exercises {
+  display: grid;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.session__exercise-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-card);
+  padding: var(--spacing-md);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.session__exercise-card:hover {
+  border-color: var(--color-border-hover);
+  box-shadow: var(--shadow-card);
+}
+
+.session__exercise-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.session__exercise-name {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-white);
+}
+
+.session__exercise-sets {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.session__exercise-sets::-webkit-scrollbar {
+  width: 4px;
+}
+
+.session__exercise-sets::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.session__exercise-sets::-webkit-scrollbar-thumb {
+  background: var(--color-border-hover);
+  border-radius: 4px;
+}
+
+.session__set-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-surface-2);
+  padding: 10px var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  border-left: 3px solid var(--color-primary);
+}
+
+.session__set-data {
+  color: var(--color-white);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-body);
+}
+
+.session__set-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm);
+  background-color: var(--color-surface-2);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+.session__set-form .input {
+  height: 42px;
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-small);
+}
+
+.session__actions {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
+  justify-content: center;
+}
+
+.session__loading,
+.session__error {
+  text-align: center;
+  padding: var(--spacing-xl);
+  font-size: var(--font-size-body);
+  color: var(--color-white);
+}
+
+.session__error {
+  color: var(--color-danger);
+  background-color: var(--color-danger-muted);
+  border: 1px solid rgba(255, 59, 78, 0.3);
+  border-radius: var(--border-radius-card);
+  margin: var(--spacing-md);
+}
+
+/* Session page btn-lg override */
+.page--session .btn-lg {
+  min-width: 200px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .session__title {
+    font-size: var(--font-size-h2);
+  }
+
+  .session__exercise-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+
+  .session__set-form {
+    grid-template-columns: 1fr;
+  }
+
+  .page--session .btn-lg {
+    min-width: auto;
+    width: 100%;
+  }
+}

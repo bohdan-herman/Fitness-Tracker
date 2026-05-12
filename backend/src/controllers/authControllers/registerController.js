@@ -5,18 +5,18 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 export const RegisterController = async (req, res) => {
   const user = await registerUser(req.body.name, req.body.password);
-  const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: "1h" });
+  const token = jwt.sign({ id: user.id, name: user.name }, JWT_SECRET, {
+    expiresIn: "1h",
+  });
   res.cookie("token", token, {
     httpOnly: true,
-    secure: false,
-    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
     maxAge: 1000 * 60 * 60,
   });
   res.status(201).json({
     success: true,
-    message: "Пользователь успешно зарегистрирован",
-    data: {
-      name: user.name,
-    },
+    message: "User registered successfully",
+    data: { id: user.id, name: user.name },
   });
 };

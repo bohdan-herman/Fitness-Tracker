@@ -14,7 +14,8 @@ export const authMiddleware = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded;
+    // Keep request user shape consistent across app
+    req.user = { id: decoded.id, name: decoded.name };
     next();
   } catch (error) {
     return res.status(401).json({

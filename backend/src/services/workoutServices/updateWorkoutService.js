@@ -9,10 +9,13 @@ export const updateWorkoutService = async (user, id, body) => {
     data: {
       name: body.name,
       exercises: {
-        connect: body.exercises.map((exercise) => ({
+        set: body.exercises.map((exercise) => ({
           id: exercise.id,
         })),
       },
+    },
+    include: {
+      exercises: true,
     },
   });
 };
