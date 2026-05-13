@@ -11,6 +11,30 @@ const WorkoutCard = ({
   showDeleteConfirm = false,
   onCancelDelete,
 }) => {
+  const formatDate = (dateString) => {
+    if (!dateString) return null;
+    const date = new Date(dateString);
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    if (date.toDateString() === today.toDateString()) {
+      return "Today";
+    } else if (date.toDateString() === yesterday.toDateString()) {
+      return "Yesterday";
+    } else {
+      return date.toLocaleDateString("ru-RU", {
+        month: "short",
+        day: "numeric",
+        year:
+          date.getFullYear() !== today.getFullYear() ? "numeric" : undefined,
+      });
+    }
+  };
+
+  const lastSessionDate = workout.sessions?.[0]?.date || null;
+  const formattedLastSessionDate = formatDate(lastSessionDate);
+
   return (
     <div className="library__card card">
       <h3 className="workout-card__name">{workout.name}</h3>
@@ -18,6 +42,34 @@ const WorkoutCard = ({
         {workout.exercises?.length || 0} exercise
         {workout.exercises?.length !== 1 ? "s" : ""}
       </p>
+
+      {/* Exercises list */}
+      {workout.exercises && workout.exercises.length > 0 && (
+        <div className="workout-card__exercises">
+          <ul className="workout-card__exercises-list">
+            {workout.exercises.slice(0, 4).map((exercise) => (
+              <li key={exercise.id} className="workout-card__exercise-item">
+                {exercise.name}
+              </li>
+            ))}
+            {workout.exercises.length > 4 && (
+              <li className="workout-card__exercise-item text-muted">
+                +{workout.exercises.length - 4} more
+              </li>
+            )}
+          </ul>
+        </div>
+      )}
+
+      {/* Last session date */}
+      {formattedLastSessionDate && (
+        <div className="workout-card__last-session">
+          <span className="text-small text-muted">
+            Last used:{" "}
+            <span className="text-semibold">{formattedLastSessionDate}</span>
+          </span>
+        </div>
+      )}
 
       <div className="workout-card__actions">
         <Button

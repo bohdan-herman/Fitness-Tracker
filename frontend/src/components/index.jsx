@@ -6,6 +6,7 @@ export { default as Select } from "./Select";
 // Modal Components
 export { default as Modal } from "./Modal";
 export { default as ConfirmDialog } from "./ConfirmDialog";
+export { default as SessionDetailsModal } from "./SessionDetailsModal";
 
 // State Components
 export { default as LoadingState } from "./LoadingState";

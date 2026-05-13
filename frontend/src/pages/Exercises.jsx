@@ -57,15 +57,18 @@ const Exercises = () => {
   return (
     <div className="page page--exercises">
       <main className="page__content exercises__layout">
-        <section className="exercises__muscle-section">
-          <h2 className="h2 exercises__muscle-title">Choose Muscle Group</h2>
-          <MuscleGroupSelector
-            muscleGroups={muscleGroups}
-            selectedId={selectedMuscleGroup}
-            onSelect={handleMuscleGroupSelect}
-            showImages={true}
-          />
-        </section>
+        <div className="align-items-Center">
+          {" "}
+          <section className="exercises__muscle-section">
+            <h2 className="h2 exercises__muscle-title">Choose Muscle Group</h2>
+            <MuscleGroupSelector
+              muscleGroups={muscleGroups}
+              selectedId={selectedMuscleGroup}
+              onSelect={handleMuscleGroupSelect}
+              showImages={true}
+            />
+          </section>
+        </div>
 
         <section className="exercises__list-section">
           <h2 className="h2 exercises__list-title">

@@ -1,13 +1,16 @@
 import { useMemo, useState } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { SessionCard, CardList, EmptyState } from "../components";
-import { endSessionAPI } from "../api/sessionAPI.jsx";
+import SessionDetailsModal from "../components/SessionDetailsModal";
+import { endSessionAPI, getSessionAPI } from "../api/sessionAPI.jsx";
 
 const Home = () => {
   const initialSessions = useLoaderData();
   const navigate = useNavigate();
   const [sessions, setSessions] = useState(initialSessions ?? []);
   const [endingSessionId, setEndingSessionId] = useState(null);
+  const [selectedSession, setSelectedSession] = useState(null);
+  const [detailsModalOpen, setDetailsModalOpen] = useState(false);
 
   const sortedSessions = useMemo(() => {
     return [...(sessions ?? [])].sort((a, b) => {
@@ -35,6 +38,21 @@ const Home = () => {
     }
   };
 
+  const handleViewDetails = async (session) => {
+    try {
+      const fullSession = await getSessionAPI(session.id);
+      setSelectedSession(fullSession);
+      setDetailsModalOpen(true);
+    } catch (e) {
+      alert(e?.message || "Failed to load session details");
+    }
+  };
+
+  const handleCloseDetailsModal = () => {
+    setDetailsModalOpen(false);
+    setSelectedSession(null);
+  };
+
   const isEmpty = !sortedSessions || sortedSessions.length === 0;
 
   return (
@@ -53,11 +71,18 @@ const Home = () => {
               session={session}
               onContinue={() => handleContinueSession(session.id)}
               onEnd={() => handleEndSession(session.id)}
+              onViewDetails={handleViewDetails}
               isEnding={endingSessionId === session.id}
             />
           ))}
         </CardList>
       </main>
+
+      <SessionDetailsModal
+        session={selectedSession}
+        isOpen={detailsModalOpen}
+        onClose={handleCloseDetailsModal}
+      />
     </div>
   );
 };

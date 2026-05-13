@@ -1,11 +1,28 @@
 import React from "react";
 import Button from "./Button";
 
-const SessionCard = ({ session, onContinue, onEnd, isEnding = false }) => {
+const SessionCard = ({
+  session,
+  onContinue,
+  onEnd,
+  onViewDetails,
+  isEnding = false,
+}) => {
   const isActive = session.status !== "completed";
 
+  const handleCardClick = () => {
+    if (!isActive && onViewDetails) {
+      onViewDetails(session);
+    }
+  };
+
   return (
-    <li className="card-session">
+    <li
+      className={`card-session ${!isActive && onViewDetails ? "card-session--clickable" : ""}`}
+      onClick={handleCardClick}
+      role={!isActive && onViewDetails ? "button" : undefined}
+      tabIndex={!isActive && onViewDetails ? 0 : undefined}
+    >
       <div className="card-session__left">
         <span className="text-semibold card-session__name">
           {session.workout?.name || "Unnamed Workout"}
@@ -43,6 +60,14 @@ const SessionCard = ({ session, onContinue, onEnd, isEnding = false }) => {
               loading={isEnding}
             >
               End
+            </Button>
+          </div>
+        )}
+
+        {!isActive && onViewDetails && (
+          <div className="card-session__buttons">
+            <Button variant="secondary" size="sm" onClick={handleCardClick}>
+              View Details
             </Button>
           </div>
         )}

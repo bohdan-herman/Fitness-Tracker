@@ -26,7 +26,6 @@ const SearchInput = ({
       value={value}
       onChange={onChange}
       className={`input-search ${className}`}
-      icon={<SearchIcon />}
     />
   );
 };
